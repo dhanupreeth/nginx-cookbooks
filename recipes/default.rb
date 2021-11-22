@@ -1,13 +1,19 @@
 include_recipe "apt"
 
-apt_repository "nginx" do
-  uri "http://ppa.launchpad.net/nginx/stable/ubuntu"
-  distribution node[:nginx][:distribution]
-  components node[:nginx][:components]
-  keyserver node[:nginx][:apt_keyserver]
-  key "C300EE8C"
-  action :add
+execute "adding nginx repo stable version" do
+  command "bash -c 'wget https://nginx.org/keys/nginx_signing.key &&  apt-key add nginx_signing.key && echo -e "deb https://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx\n deb-src https://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx" > /etc/apt/sources.list.d/nginx.list'"
+  user 'root'
+  action: run
 end
+
+# apt_repository "nginx" do
+#   uri "http://ppa.launchpad.net/nginx/stable/ubuntu"
+#   distribution node[:nginx][:distribution]
+#   components node[:nginx][:components]
+#   keyserver node[:nginx][:apt_keyserver]
+#   key "C300EE8C"
+#   action :add
+# end
 
 node[:nginx][:apt_packages].each do |nginx_package|
   package nginx_package do
