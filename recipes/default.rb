@@ -1,7 +1,7 @@
 include_recipe "apt"
 
 execute "adding nginx repo stable version" do
-  command "bash -c 'wget https://nginx.org/keys/nginx_signing.key &&  apt-key add nginx_signing.key && echo -e "deb https://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx\n deb-src https://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx" > /etc/apt/sources.list.d/nginx.list'"
+  command "bash -c 'wget https://nginx.org/keys/nginx_signing.key &&  apt-key add nginx_signing.key && echo -e "deb https://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx\n deb-src https://nginx.org/packages/mainline/ubuntu/ `lsb_release -cs` nginx" > /etc/apt/sources.list.d/nginx.list && add-apt-repository ppa:nginx/stable'"
   user 'root'
   action: run
 end
